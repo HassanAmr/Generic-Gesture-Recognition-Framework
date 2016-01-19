@@ -7,9 +7,6 @@ CFLAGS=-I$(IDIR) -L$(LDIR) -O0 -c -Wall
 LFLAGS=-I$(IDIR) -L$(LDIR) -O0 -Wall
 STD=gnu++11
 
-#-lgrt #put in LIBS later
-#-Wall
-
 all: sensors
 
 sensors:	Sensors.o BNO055.o
