@@ -338,7 +338,8 @@ s8 BNO055_I2C_bus_write(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt, I2c* i2c
 	i2c->address(dev_addr);
 	rx_tx_buf[0] = reg_addr;
 	rx_tx_buf[1] = *reg_data;
-	mraa_result_t status = i2c->write(rx_tx_buf, 2);
+	//Result status = 
+	i2c->write(rx_tx_buf, 2);
 
 	//if (status == MRAA_SUCCESS)
 	return SUCCESS;
