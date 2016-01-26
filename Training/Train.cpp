@@ -1,4 +1,4 @@
-//#include<string>  //string
+#include<string>  //string
 #include "GRT.h"
 using namespace GRT;
 
@@ -39,8 +39,9 @@ int main (int argc, const char * argv[])
         return EXIT_FAILURE;
     }
 
+
     //Save the ANBC model to a file
-    if( !anbc.saveModelToFile(append("_Model.txt") ){
+    if( !anbc.saveModelToFile(fileName.append("_Model.txt")) ){
         cout << "Failed to save the classifier model!\n";
         return EXIT_FAILURE;
     }
