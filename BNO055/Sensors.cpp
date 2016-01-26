@@ -109,8 +109,6 @@ int main(int argc, char** argv)
 	/*---------------------------------------------------------------------*
 	 ************************* END INITIALIZATION **********************
 	 *---------------------------------------------------------------------*/
-	
-	 BNO055_delay_msek(1000);
 
 	//printf("xOffset1: %x, yOffset1: %x, zOffset1: %x\n",offsetData1.x,offsetData1.y,offsetData1.z);
 	//printf("xOffset2: %x, yOffset2: %x, zOffset2: %x\n\n",offsetData2.x,offsetData2.y,offsetData2.z);
@@ -123,6 +121,8 @@ int main(int argc, char** argv)
 	//printf("xOffset2: %x, yOffset2: %x, zOffset2: %x\n\n",offsetData2.x,offsetData2.y,offsetData2.z);
 
 	double x1, x2, y1, y2, z1, z2;
+	double x1_raw,y1_raw,z1_raw,x2_raw,y2_raw,z2_raw;
+	double x1_offset, x2_offset, y1_offset, y2_offset, z1_offset, z2_offset;
 
 	//read data first once, then have it as an offset (-ve) for the next readings
 	BNO055_I2C_bus_read(sensor1.dev_addr,BNO055_MAG_DATA_X_LSB_VALUEX__REG,rx_tx_buf, BNO055_SIX_U8X, i2c, rx_tx_buf);
@@ -160,8 +160,14 @@ int main(int argc, char** argv)
 	mag_dataz2 = ((((s32)((s8)rx_tx_buf[INDEX_FIVE])) << BNO055_SHIFT_8_POSITION)| (rx_tx_buf[INDEX_FOUR]));
 	z2 = (double)(mag_dataz2); // /MAG_DIV_UT);
 
-	printf("%f \t %f \t %f \t%f \t%f \t%f\n", x1, y1, z1, x2, y2, z2);
-
+	
+	x1_offset = x1;
+	y1_offset = y1;
+	z1_offset = z1;
+	x2_offset = x2;
+	y2_offset = y2;
+	z2_offset = z2;
+	
 	while (1)
 	{
 		if(running == -1)
@@ -182,17 +188,17 @@ int main(int argc, char** argv)
 		rx_tx_buf[INDEX_ZERO] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_ZERO],BNO055_MAG_DATA_X_LSB_VALUEX);
 		rx_tx_buf[INDEX_ONE] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_ONE], BNO055_MAG_DATA_X_MSB_VALUEX);
 		mag_datax1 = ((((s32)((s8)rx_tx_buf[INDEX_ONE])) << BNO055_SHIFT_8_POSITION) |(rx_tx_buf[INDEX_ZERO]));
-		x1 = (double)(mag_datax1);// /MAG_DIV_UT);
+		x1_raw = (double)(mag_datax1);// /MAG_DIV_UT);
 		/* Data Y*/
 		rx_tx_buf[INDEX_TWO] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_TWO],BNO055_MAG_DATA_Y_LSB_VALUEY);
 		rx_tx_buf[INDEX_THREE] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_THREE], BNO055_MAG_DATA_Y_MSB_VALUEY);
 		mag_datay1 = ((((s32)((s8)rx_tx_buf[INDEX_THREE])) <<BNO055_SHIFT_8_POSITION) |(rx_tx_buf[INDEX_TWO]));
-		y1 = (double)(mag_datay1);// /MAG_DIV_UT);
+		y1_raw = (double)(mag_datay1);// /MAG_DIV_UT);
 		/* Data Z*/
 		rx_tx_buf[INDEX_FOUR] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_FOUR],BNO055_MAG_DATA_Z_LSB_VALUEZ);
 		rx_tx_buf[INDEX_FIVE] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_FIVE],BNO055_MAG_DATA_Z_MSB_VALUEZ);
 		mag_dataz1 = ((((s32)((s8)rx_tx_buf[INDEX_FIVE])) << BNO055_SHIFT_8_POSITION)| (rx_tx_buf[INDEX_FOUR]));
-		z1 = (double)(mag_dataz1);// /MAG_DIV_UT);
+		z1_raw = (double)(mag_dataz1);// /MAG_DIV_UT);
 
 		/*Read the six byte value of mag xyz from second sesnor*/
 		BNO055_I2C_bus_read(sensor2.dev_addr,BNO055_MAG_DATA_X_LSB_VALUEX__REG,rx_tx_buf, BNO055_SIX_U8X, i2c, rx_tx_buf);
@@ -200,18 +206,26 @@ int main(int argc, char** argv)
 		rx_tx_buf[INDEX_ZERO] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_ZERO],BNO055_MAG_DATA_X_LSB_VALUEX);
 		rx_tx_buf[INDEX_ONE] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_ONE], BNO055_MAG_DATA_X_MSB_VALUEX);
 		mag_datax2 = ((((s32)((s8)rx_tx_buf[INDEX_ONE])) << BNO055_SHIFT_8_POSITION) |(rx_tx_buf[INDEX_ZERO]));
-		x2 = (double)(mag_datax2);// /MAG_DIV_UT);
+		x2_raw = (double)(mag_datax2);// /MAG_DIV_UT);
 		/* Data Y*/
 		rx_tx_buf[INDEX_TWO] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_TWO],BNO055_MAG_DATA_Y_LSB_VALUEY);
 		rx_tx_buf[INDEX_THREE] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_THREE], BNO055_MAG_DATA_Y_MSB_VALUEY);
 		mag_datay2 = ((((s32)((s8)rx_tx_buf[INDEX_THREE])) <<BNO055_SHIFT_8_POSITION) |(rx_tx_buf[INDEX_TWO]));
-		y2 = (double)(mag_datay2);// /MAG_DIV_UT);
+		y2_raw = (double)(mag_datay2);// /MAG_DIV_UT);
 		/* Data Z*/
 		rx_tx_buf[INDEX_FOUR] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_FOUR],BNO055_MAG_DATA_Z_LSB_VALUEZ);
 		rx_tx_buf[INDEX_FIVE] = BNO055_GET_BITSLICE(rx_tx_buf[INDEX_FIVE],BNO055_MAG_DATA_Z_MSB_VALUEZ);
 		mag_dataz2 = ((((s32)((s8)rx_tx_buf[INDEX_FIVE])) << BNO055_SHIFT_8_POSITION)| (rx_tx_buf[INDEX_FOUR]));
-		z2 = (double)(mag_dataz2);// /MAG_DIV_UT);
-
+		z2_raw = (double)(mag_dataz2);// /MAG_DIV_UT);
+		
+		
+		x1 = x1_raw - x1_offset;
+		y1 = y1_raw - y1_offset;
+		z1 = z1_raw - z1_offset;
+		x2 = x2_raw - x2_offset;
+		y2 = y2_raw - y2_offset;
+		z2 = z2_raw - z2_offset;
+		
 		printf("%f \t %f \t %f \t%f \t%f \t%f\n", x1, y1, z1, x2, y2, z2);
 		fflush(stdout);
 
