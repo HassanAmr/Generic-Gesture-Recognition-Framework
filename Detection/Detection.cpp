@@ -1,11 +1,51 @@
 #include <stdio.h>
 
-//#include "GRT/GRT.h"
-//using namespace std;
+#include "GRT.h"
+using namespace GRT;
 
 int main(int argc, char** argv)
 {	
-	int sensorVectorSize = 6;//read later from config file
+
+	string fileName = "";
+
+
+	if (argc > 1)
+    {
+    	fileName = argv[1];
+  	}
+  	else
+  	{
+  		printf("File name not entered");
+		return 1;
+  	}
+
+
+	/*---------------------------------------------------------------------*
+	 ************************* start GRT **********************
+	 *---------------------------------------------------------------------*/
+
+	ANBC anbc;
+	anbc.setNullRejectionCoeff( 10 );
+	anbc.enableScaling( true );
+	anbc.enableNullRejection( true );
+	vector< double > inputVector;
+	int sensorVectorSize = 10;//read later from config file
+	for(int i = 0; i < sensorVectorSize; i++) //read later from config file
+		{
+			inputVector.push_back(0);
+		}	
+	UINT predictedClass;
+
+	//Load the ANBC model from a file
+	if( !anbc.load(fileName) )
+	{
+		cout << "Failed to load the classifier model!\n";
+		return EXIT_FAILURE;
+	}
+
+	/*-----------------------------------------------------------------------*
+	 ************************* START INITIALIZATION ***********************
+	 *-------------------------------------------------------------------------*/
 
 	//Features data
 	double sensorData[sensorVectorSize];
@@ -59,7 +99,7 @@ int main(int argc, char** argv)
 			{
 				firstDer[i] = sensorData[i] - firstDer[i];
 				secondDer[i] = firstDer[i] - secondDer[i];
-				printf("%5.2f \t %5.2f \t %5.2f\n", sensorData[i], firstDer[i], secondDer[i]);
+				//printf("%5.2f \t %5.2f \t %5.2f\n", sensorData[i], firstDer[i], secondDer[i]);
 			}
 			else
 			{
@@ -68,10 +108,46 @@ int main(int argc, char** argv)
 				break;
 			}
 
+			inputVector.at(i) = sensorData[i];
 			
 			//fill training file
 		}
-		printf("\n");
+		//Perform a prediction using the classifier
+		anbc.predict( inputVector );
+		predictedClass = anbc.getPredictedClassLabel();
+		switch(predictedClass)
+		{
+		case 1:
+			printf("A\n");
+		break;
+		case 2: 
+			printf("B\n");
+		break;
+		case 3:
+			printf("C\n");
+		break;
+		case 4: 
+			printf("D\n");
+		break;
+		case 5:
+			printf("E\n");
+		break;
+		case 6: 
+			printf("F\n");
+		break;
+		case 7:
+			printf("G\n");
+		break;
+		case 8: 
+			printf("H\n");
+		break;
+		case 9:
+			printf("I\n");
+		break;
+		case 0: 
+			printf("?\n");
+		break;
+		}
 		fflush(stdout);
 		//time_since_last_iteration = difftime( time(0), timer);
 
