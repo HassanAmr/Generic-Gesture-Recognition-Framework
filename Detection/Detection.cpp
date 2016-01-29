@@ -39,7 +39,8 @@ int main(int argc, char** argv)
 	//time_t start = time(0);
 	//time_t timer = time(0);
 	//double time_since_last_iteration = 0.0;
-	while (1)
+	bool running = true;
+	while (running)
 	{
 	
 		//readline here, and fill sensorData array with its contents... needs yet to be implemented
@@ -51,15 +52,23 @@ int main(int argc, char** argv)
 		/*Read the six byte value of mag xyz from first sensor*/
 		
 		
-		
-		
 		for(int i = 0; i < sensorVectorSize; i++)
 		{
 			//read something that indicates the termination of the program
-			scanf("%lf", &sensorData[i]);
-			firstDer[i] = sensorData[i] - firstDer[i];
-			secondDer[i] = firstDer[i] - secondDer[i];
-			printf("%5.2f \t %5.2f \t %5.2f\n", sensorData[i], firstDer[i], secondDer[i]);
+			if(scanf("%lf", &sensorData[i]) == 1)
+			{
+				firstDer[i] = sensorData[i] - firstDer[i];
+				secondDer[i] = firstDer[i] - secondDer[i];
+				printf("%5.2f \t %5.2f \t %5.2f\n", sensorData[i], firstDer[i], secondDer[i]);
+			}
+			else
+			{
+				running = false;
+				printf("Sensor has finshed sending data!\n");
+				break;
+			}
+
+			
 			//fill training file
 		}
 		printf("\n");
