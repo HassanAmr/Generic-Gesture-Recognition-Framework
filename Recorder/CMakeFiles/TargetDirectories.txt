@@ -1,0 +1,1 @@
+/Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/Recorder.dir
