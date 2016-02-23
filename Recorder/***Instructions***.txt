@@ -1,4 +1,0 @@
-1. Edit CMakeLists.txt
-2. cd to project directory
-3. Run: /Applications/CMake.app/Contents/bin/cmake .
-4. Run: make
