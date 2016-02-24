@@ -35,10 +35,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder
+CMAKE_SOURCE_DIR = "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder
+CMAKE_BINARY_DIR = "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Recorder.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/Recorder.dir/flags.make
 
 CMakeFiles/Recorder.dir/Recorder.cpp.o: CMakeFiles/Recorder.dir/flags.make
 CMakeFiles/Recorder.dir/Recorder.cpp.o: Recorder.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles" $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/Recorder.dir/Recorder.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Recorder.dir/Recorder.cpp.o -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/Recorder.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/Recorder.dir/Recorder.cpp.o -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/Recorder.cpp"
 
 CMakeFiles/Recorder.dir/Recorder.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Recorder.dir/Recorder.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/Recorder.cpp > CMakeFiles/Recorder.dir/Recorder.cpp.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/Recorder.cpp" > CMakeFiles/Recorder.dir/Recorder.cpp.i
 
 CMakeFiles/Recorder.dir/Recorder.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Recorder.dir/Recorder.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/Recorder.cpp -o CMakeFiles/Recorder.dir/Recorder.cpp.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/Recorder.cpp" -o CMakeFiles/Recorder.dir/Recorder.cpp.s
 
 CMakeFiles/Recorder.dir/Recorder.cpp.o.requires:
 .PHONY : CMakeFiles/Recorder.dir/Recorder.cpp.o.requires
@@ -116,6 +116,6 @@ CMakeFiles/Recorder.dir/clean:
 .PHONY : CMakeFiles/Recorder.dir/clean
 
 CMakeFiles/Recorder.dir/depend:
-	cd /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/Recorder.dir/DependInfo.cmake --color=$(COLOR)
+	cd "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder" "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder" "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder" "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder" "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/Recorder.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Recorder.dir/depend
 

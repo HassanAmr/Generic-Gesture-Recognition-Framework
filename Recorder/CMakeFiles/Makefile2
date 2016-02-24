@@ -47,10 +47,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder
+CMAKE_SOURCE_DIR = "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder
+CMAKE_BINARY_DIR = "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder"
 
 #=============================================================================
 # Target rules for target CMakeFiles/Recorder.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Re
 CMakeFiles/Recorder.dir/all:
 	$(MAKE) -f CMakeFiles/Recorder.dir/build.make CMakeFiles/Recorder.dir/depend
 	$(MAKE) -f CMakeFiles/Recorder.dir/build.make CMakeFiles/Recorder.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles"  1
 	@echo "Built target Recorder"
 .PHONY : CMakeFiles/Recorder.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/Recorder.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Recorder.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles" 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Recorder.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles" 0
 .PHONY : CMakeFiles/Recorder.dir/rule
 
 # Convenience name for target.

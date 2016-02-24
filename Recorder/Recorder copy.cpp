@@ -1,5 +1,4 @@
 #include <iostream> // for standard I/O
-//#include <sstream>      // std::stringstream, std::stringbuf
 #include <string>   // for strings
 #include <time.h>
 #include <thread>
@@ -7,7 +6,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
-#include <stdexcept>  
 
 //#include <opencv2/core/core.hpp>        // Basic OpenCV structures (cv::Mat)
 //#include <opencv2/highgui/highgui.hpp>  // Video write
@@ -19,11 +17,9 @@
 using namespace std;
 using namespace cv;
 
-void Help();
+
+void ToggleRecorder();
 void SensorStream();
-void Timer();
-void WriteSRT(int lineCounter, String data);
-String FromMillisecondsToSRTFormat(unsigned long val);
 int CreateDirectories(String, String);//this function will create the necessary folders for the recorder
 
 
@@ -31,23 +27,24 @@ int CreateDirectories(String, String);//this function will create the necessary 
 FILE * srtFile;
 FILE * trainingFile;
 
-
-bool recording = false;
-bool terminating = false;
-
-int sensorVectorSize;
-
-struct timeval tv;
-
 bool startedRecording = false;//to recognize a start recording event
 bool stoppedRecording = false;//to recognize a stop recording event
 
+bool recording = false;
+
+int sensorVectorSize;
+//time_t timer;
+
+struct timeval tv;
 unsigned long long startTime;
-unsigned long timeNow;
+unsigned long long timeNow;
+
+thread br (ToggleRecorder);
+thread ss (SensorStream);
+
 
 int main(int argc, const char * argv[]){
 
-  Help();
 
   String recorderName = "";
   String recorderObject = "";
@@ -57,20 +54,14 @@ int main(int argc, const char * argv[]){
   {
     recorderName = argv[1];
     recorderObject = argv[2];
-    sensorVectorSize = atoi(argv[3]);//TODO: handle error later
+    sensorVectorSize = atoi(argv[3]);
   }
   else
   {
     printf("Too few arguments. Please enter the name of the recorder, then a string indicating what is being recorded, and finally the sensor data vector size (3 arguments)");
     return 1;
   }
-
-  thread ss (SensorStream);
-  thread tr (Timer);
-
-  ss.detach();
-  tr.detach();
-
+  //Preparing the string for the directories
   //-------------------------------------- 
   time_t session;
   char buffer [80];
@@ -113,16 +104,17 @@ int main(int argc, const char * argv[]){
   int frame_width=   vcap.get(CV_CAP_PROP_FRAME_WIDTH);
   int frame_height=   vcap.get(CV_CAP_PROP_FRAME_HEIGHT);
 
+
   //VideoWriter video(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width,frame_height),true);
   //VideoWriter video("Folder/file.avi",CV_FOURCC('M','J','P','G'),10, Size(frame_width,frame_height),true);
 
   VideoWriter * video;
+  struct timeval now;
   int recordingsCounter = 1;
   for(;;){
 
     if (startedRecording)
     {
-      //TODO: make the files naming also suitable for windows
       String vidFileName =      "Output/" + recorderName + "/" + sessionName + "/Video/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter) + ".avi";
       String srtFileName =      "Output/" + recorderName + "/" + sessionName + "/Video/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter) + ".srt";
       String trainingFileName = "Output/" + recorderName + "/" + sessionName + "/Training/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter);
@@ -148,7 +140,12 @@ int main(int argc, const char * argv[]){
 
     if (recording)
     {
-      String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeNow - startTime);//Check if possible to add a comma.
+      //The timer
+      
+      gettimeofday(&now, NULL);
+      timeNow = (unsigned long long)(now.tv_sec) * 1000 + (unsigned long long)(now.tv_usec) / 1000;
+
+      String disp1 = "Time: " + std::to_string (timeNow - startTime);//Check if possible to add a comma.
       //String disp1 = "Time: " + std::to_string (difftime( time(0), timer));
       //The frame number (commented for now, as it has no useful purpose)
       //String disp2 = "Frame # " + std::to_string(blinks_number);
@@ -164,165 +161,76 @@ int main(int argc, const char * argv[]){
     }
 
     //++blinks_number;
-    //namedWindow("Control Panel");
-    imshow( "Recorder", frame );
+    
+    imshow( "Frame", frame );
     char c = (char)waitKey(33);
-    if( c == 27 ) //Escape button pressed
-    {
-      recording = false;
-      terminating = true;
-      break;
-    }
-    else if (c == 'r')
+    if( c == 27 ) break;
+  } 
+  delete video;
+  br.detach();
+  ss.detach();
+  return 0;
+
+}
+
+void ToggleRecorder()
+{
+  char c;
+  while (1)
+  {
+    scanf("%c", &c);
+    if (c == 's')
     {
       if (recording)
-      {
         stoppedRecording = true;
-        printf("Stopped recording!\n");
-      }
       else
-      {
-       startedRecording = true;
-       printf("Started recording!\n");
-      }
+        startedRecording = true;
+      //timer = time(0);
       gettimeofday(&tv, NULL);
       startTime = (unsigned long long)(tv.tv_sec) * 1000 + (unsigned long long)(tv.tv_usec) / 1000;
       recording = !recording;
+      //br.detach();
+      //break;
     }
-    //a failed attempt to restart streaming in case the stream feed was interrupted, but eitherway, the piping program has to be restarted.
-    //else if (c == 's')
-    //{
-    //  if (!streaming)
-    //  {
-    //    thread ss (SensorStream);
-    //    ss.detach();
-    //    streaming = true;
-    //  }
-    //} 
-  } 
-  delete video;
-  
-  return 0;
-
+  }
 }
 
 void SensorStream()
 {
  //double sensorData[sensorVectorSize];
 
-  char buffer[256];
-  double val;
-  
+  double input;
   bool streaming = true;
-  
-  bool startWriting = false;//this is to align the stream with the recording
-
-  //Data specific to write the srt file
-  int srtLineCounter = 1;
-  String srtData = "";
-  String srtTime = "";
+  int i = 0;
   while (streaming)
   {
-    for(int i = 0; i < sensorVectorSize; i++)
+  //read something that indicates the termination of the program
+    if(scanf("%lf", &input) == 1)
     {
-      scanf("%s", buffer);  
-      try
+      if(recording)
       {
-        val = stof(buffer);
-        if(recording)
+        if (i < sensorVectorSize)
         {
-          if (startWriting)
-          {
-            if (i==0)//this is only concerned with the srt file to document the time at which the first value arrived
-              srtTime += FromMillisecondsToSRTFormat(timeNow - startTime);
-
-            fprintf (trainingFile, "%5.2f", val);
-            srtData += buffer;//TODO: consider taking only 2 decimal places
-            //sprintf(strData, "%5.2f", val);
-            if (i == sensorVectorSize - 1)
-            {
-              fprintf (trainingFile, "\n");
-              srtData += "\n";
-              srtTime += " --> "+ FromMillisecondsToSRTFormat(timeNow - startTime) + "\n";
-              WriteSRT(srtLineCounter, srtTime + srtData);//send here the print value to the WriteSRT function
-              srtData = "";
-              srtTime = "";
-              srtLineCounter++;
-            } 
-            else
-            {
-              fprintf (trainingFile, "\t");
-              srtData += "\t";
-            }
-          }
-          else if (i == sensorVectorSize - 1)//this ensures that if the recording started in the middle of a vector, that the stream will be aligned with the recording
-          {
-            startWriting = true;
-          }
+          fprintf (trainingFile, "%5.2f\t", input);
+          i++;
         }
         else
         {
-          srtLineCounter = 1;
+          fprintf (trainingFile, "%5.2f\n", input);
+          i = 0;
         }
       }
-      catch (const std::invalid_argument& ia)
-      {
-        printf("Sensor has finshed sending data!\n Please restart the Recorder.\n");
-        //printf("Sensor has finshed sending data!\n If you are planning on restarting the sensor feed,"
-          //      " please make sure to press the 's' key in advance, otherwise the feed will not be synchronized.\n");
-        streaming = false;
-      }
-    }     
+    }
+    else
+    {
+      streaming = false;
+      printf("Sensor has finshed sending data!\n");
+    }
   } 
 }
 
-void Timer()
-{
 
-  struct timeval now;
-  while(!terminating)//TODO, check if there is a better practice
-  {
-    gettimeofday(&now, NULL);
-    timeNow = (unsigned long long)(now.tv_sec) * 1000 + (unsigned long long)(now.tv_usec) / 1000;
-  }
-  
-}
-
-void WriteSRT(int lineCounter, String data)
-{
-  fprintf (srtFile, "%d\n", lineCounter);
-  fprintf (srtFile, "%s\n", data.c_str());
-}
-
-String FromMillisecondsToSRTFormat(unsigned long val)
-{
-  int milliseconds = val/1000;
-  milliseconds = val - milliseconds*1000;
-  int seconds = (int) (val / 1000) % 60 ;
-  int minutes = (int) ((val / (1000*60)) % 60);
-  int hours   = (int) ((val / (1000*60*60)) % 24);
-  char str[20];
-  sprintf(str, "%02d:%02d:%02d,%03d", hours, minutes, seconds, milliseconds);
-  //ss<< setfill('0') << setw(2) <<hours<<":"<< setfill('0') << setw(2) <<minutes<<":"<< setfill('0') << setw(2) <<seconds<<","<< milliseconds<<endl;
-  return str;
-
-}
-
-void Help()
-{
-    cout << "\nThis program helps you train your sensor data by piping the sensor stream directly into this program.\n\n"
-            "Please make sure that the Recorder is active before starting the sensor stream feed, otherwise the feed will not be synchronized.\n\n"
-            "Call:\n"
-            "./Recorder [recorder_name] [symbol_to_train] [expected_#_inputs_from_sensor]\n" << endl;
-
-    cout << "Hot keys: *Recorder window must be active for these controls to work.*\n"
-            "\tESC - quit the program\n"
-            "\tr - start, or stop a recording.\n"
-            //"\ts - start stream again, in case the sensor was interrupted.\n"
-            << endl;
-}
-
-int CreateDirectories(String recorderName, String sessionName)//TODO: make it also suitable for windows
+int CreateDirectories(String recorderName, String sessionName)
 {
   int returnValue = 0;
   int status = mkdir("Output", 0777);
@@ -332,7 +240,7 @@ int CreateDirectories(String recorderName, String sessionName)//TODO: make it al
   }
   else if (errno == EEXIST)
   {
-    //printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
+    printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
   }
   else
   {
@@ -349,7 +257,7 @@ int CreateDirectories(String recorderName, String sessionName)//TODO: make it al
   }
   else if (errno == EEXIST)
   {
-    //printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
+    printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
   }
   else
   {
@@ -367,7 +275,7 @@ int CreateDirectories(String recorderName, String sessionName)//TODO: make it al
   }
   else if (errno == EEXIST)
   {
-    //printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
+    printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
   }
   else
   {
@@ -379,11 +287,11 @@ int CreateDirectories(String recorderName, String sessionName)//TODO: make it al
   status = mkdir(String(directoryName + "/Video").c_str(), 0777);
   if ( status == 0)
   {
-    //printf("");//Not important to mention it again, since we already told the user that a new folder for the recorder has been created.
+    printf("");//Not important to mention it again, since we already told the user that a new folder for the recorder has been created.
   }
   else if (errno == EEXIST)
   {
-    //printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
+    printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
   }
   else
   {
@@ -394,18 +302,17 @@ int CreateDirectories(String recorderName, String sessionName)//TODO: make it al
   status = mkdir(String(directoryName + "/Training").c_str(), 0777);
   if (status == 0)
   {
-    //printf("");//Not important to mention it again, since we already told the user that a new folder for the recorder has been created.
+    printf("");//Not important to mention it again, since we already told the user that a new folder for the recorder has been created.
   }
   else if (errno == EEXIST)
   {
-    //printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
+    printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
   }
   else
   {
     printf("Couldn't create the 'Training' folder for the recorder\n");
     returnValue =  1;
   }
-  printf("\n");
   return returnValue;
 
 }

@@ -10,7 +10,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is AppleClang, found in "/Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/3.2.2/CompilerIdC/a.out"
+The C compiler identification is AppleClang, found in "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/3.2.2/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ 
@@ -23,36 +23,36 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is AppleClang, found in "/Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/3.2.2/CompilerIdCXX/a.out"
+The CXX compiler identification is AppleClang, found in "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/3.2.2/CompilerIdCXX/a.out"
 
 Determining if the C compiler works passed with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec3140634880/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec3140634880.dir/build.make CMakeFiles/cmTryCompileExec3140634880.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec3140634880.dir/testCCompiler.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec3140634880.dir/testCCompiler.c.o   -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTryCompileExec3140634880
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3140634880.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec3140634880.dir/testCCompiler.c.o  -o cmTryCompileExec3140634880  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1076997429/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec1076997429.dir/build.make CMakeFiles/cmTryCompileExec1076997429.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building C object CMakeFiles/cmTryCompileExec1076997429.dir/testCCompiler.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec1076997429.dir/testCCompiler.c.o   -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/testCCompiler.c"
+Linking C executable cmTryCompileExec1076997429
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1076997429.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec1076997429.dir/testCCompiler.c.o  -o cmTryCompileExec1076997429  
 
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2584115621/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2584115621.dir/build.make CMakeFiles/cmTryCompileExec2584115621.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c
-Linking C executable cmTryCompileExec2584115621
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2584115621.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec2584115621   
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1255105919/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec1255105919.dir/build.make CMakeFiles/cmTryCompileExec1255105919.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building C object CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c
+Linking C executable cmTryCompileExec1255105919
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1255105919.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec1255105919   
 Apple LLVM version 6.1.0 (clang-602.0.53) (based on LLVM 3.6.0svn)
 Target: x86_64-apple-darwin14.4.0
 Thread model: posix
- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec2584115621 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec1255105919 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a
 @(#)PROGRAM:ld  PROJECT:ld64-242.2
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7m armv7em
 Library search paths:
@@ -63,20 +63,20 @@ Framework search paths:
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec2584115621/fast"]
-  ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2584115621.dir/build.make CMakeFiles/cmTryCompileExec2584115621.dir/build]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1]
-  ignore line: [Building C object CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTryCompileExec2584115621]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2584115621.dir/link.txt --verbose=1]
-  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec2584115621   ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec1255105919/fast"]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec1255105919.dir/build.make CMakeFiles/cmTryCompileExec1255105919.dir/build]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1]
+  ignore line: [Building C object CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTryCompileExec1255105919]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1255105919.dir/link.txt --verbose=1]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o  -o cmTryCompileExec1255105919   ]
   ignore line: [Apple LLVM version 6.1.0 (clang-602.0.53) (based on LLVM 3.6.0svn)]
   ignore line: [Target: x86_64-apple-darwin14.4.0]
   ignore line: [Thread model: posix]
-  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec2584115621 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a]
+  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec1255105919 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a]
     arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
     arg [-demangle] ==> ignore
     arg [-dynamic] ==> ignore
@@ -87,11 +87,11 @@ Parsed C implicit link information from above output:
     arg [-syslibroot] ==> ignore
     arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTryCompileExec2584115621] ==> ignore
+    arg [cmTryCompileExec1255105919] ==> ignore
     arg [-search_paths_first] ==> ignore
     arg [-headerpad_max_install_names] ==> ignore
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTryCompileExec2584115621.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTryCompileExec1255105919.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lSystem] ==> lib [System]
     arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a]
   Library search paths: [;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/usr/lib]
@@ -108,16 +108,16 @@ Parsed C implicit link information from above output:
 
 
 Detecting C [-std=c11] compiler features compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2064282328/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2064282328.dir/build.make CMakeFiles/cmTryCompileExec2064282328.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec2064282328.dir/feature_tests.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c11 -o CMakeFiles/cmTryCompileExec2064282328.dir/feature_tests.c.o   -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/feature_tests.c
-Linking C executable cmTryCompileExec2064282328
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2064282328.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2064282328.dir/feature_tests.c.o  -o cmTryCompileExec2064282328  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1250929968/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec1250929968.dir/build.make CMakeFiles/cmTryCompileExec1250929968.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building C object CMakeFiles/cmTryCompileExec1250929968.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c11 -o CMakeFiles/cmTryCompileExec1250929968.dir/feature_tests.c.o   -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/feature_tests.c"
+Linking C executable cmTryCompileExec1250929968
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1250929968.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec1250929968.dir/feature_tests.c.o  -o cmTryCompileExec1250929968  
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -127,16 +127,16 @@ Linking C executable cmTryCompileExec2064282328
 
 
 Detecting C [-std=c99] compiler features compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec3145263565/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec3145263565.dir/build.make CMakeFiles/cmTryCompileExec3145263565.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec3145263565.dir/feature_tests.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c99 -o CMakeFiles/cmTryCompileExec3145263565.dir/feature_tests.c.o   -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/feature_tests.c
-Linking C executable cmTryCompileExec3145263565
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3145263565.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec3145263565.dir/feature_tests.c.o  -o cmTryCompileExec3145263565  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec1183571991/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec1183571991.dir/build.make CMakeFiles/cmTryCompileExec1183571991.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building C object CMakeFiles/cmTryCompileExec1183571991.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c99 -o CMakeFiles/cmTryCompileExec1183571991.dir/feature_tests.c.o   -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/feature_tests.c"
+Linking C executable cmTryCompileExec1183571991
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1183571991.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec1183571991.dir/feature_tests.c.o  -o cmTryCompileExec1183571991  
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -146,16 +146,16 @@ Linking C executable cmTryCompileExec3145263565
 
 
 Detecting C [-std=c90] compiler features compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2636486172/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2636486172.dir/build.make CMakeFiles/cmTryCompileExec2636486172.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building C object CMakeFiles/cmTryCompileExec2636486172.dir/feature_tests.c.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c90 -o CMakeFiles/cmTryCompileExec2636486172.dir/feature_tests.c.o   -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/feature_tests.c
-Linking C executable cmTryCompileExec2636486172
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2636486172.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2636486172.dir/feature_tests.c.o  -o cmTryCompileExec2636486172  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2709453655/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2709453655.dir/build.make CMakeFiles/cmTryCompileExec2709453655.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building C object CMakeFiles/cmTryCompileExec2709453655.dir/feature_tests.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c90 -o CMakeFiles/cmTryCompileExec2709453655.dir/feature_tests.c.o   -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/feature_tests.c"
+Linking C executable cmTryCompileExec2709453655
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2709453655.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2709453655.dir/feature_tests.c.o  -o cmTryCompileExec2709453655  
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -163,33 +163,33 @@ Linking C executable cmTryCompileExec2636486172
     Feature record: C_FEATURE:0c_static_assert
     Feature record: C_FEATURE:0c_variadic_macros
 Determining if the CXX compiler works passed with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec970349267/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec970349267.dir/build.make CMakeFiles/cmTryCompileExec970349267.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec970349267.dir/testCXXCompiler.cxx.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec970349267.dir/testCXXCompiler.cxx.o -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTryCompileExec970349267
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec970349267.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec970349267.dir/testCXXCompiler.cxx.o  -o cmTryCompileExec970349267  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec429469172/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec429469172.dir/build.make CMakeFiles/cmTryCompileExec429469172.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building CXX object CMakeFiles/cmTryCompileExec429469172.dir/testCXXCompiler.cxx.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec429469172.dir/testCXXCompiler.cxx.o -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/testCXXCompiler.cxx"
+Linking CXX executable cmTryCompileExec429469172
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec429469172.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec429469172.dir/testCXXCompiler.cxx.o  -o cmTryCompileExec429469172  
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec3261330728/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec3261330728.dir/build.make CMakeFiles/cmTryCompileExec3261330728.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTryCompileExec3261330728
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3261330728.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec3261330728   
+Run Build Command:"/usr/bin/make" "cmTryCompileExec717922544/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec717922544.dir/build.make CMakeFiles/cmTryCompileExec717922544.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building CXX object CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTryCompileExec717922544
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec717922544.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec717922544   
 Apple LLVM version 6.1.0 (clang-602.0.53) (based on LLVM 3.6.0svn)
 Target: x86_64-apple-darwin14.4.0
 Thread model: posix
- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec3261330728 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec717922544 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a
 @(#)PROGRAM:ld  PROJECT:ld64-242.2
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7m armv7em
 Library search paths:
@@ -200,20 +200,20 @@ Framework search paths:
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec3261330728/fast"]
-  ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec3261330728.dir/build.make CMakeFiles/cmTryCompileExec3261330728.dir/build]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1]
-  ignore line: [Building CXX object CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTryCompileExec3261330728]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3261330728.dir/link.txt --verbose=1]
-  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec3261330728   ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTryCompileExec717922544/fast"]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec717922544.dir/build.make CMakeFiles/cmTryCompileExec717922544.dir/build]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1]
+  ignore line: [Building CXX object CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -o CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.2/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTryCompileExec717922544]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec717922544.dir/link.txt --verbose=1]
+  ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o  -o cmTryCompileExec717922544   ]
   ignore line: [Apple LLVM version 6.1.0 (clang-602.0.53) (based on LLVM 3.6.0svn)]
   ignore line: [Target: x86_64-apple-darwin14.4.0]
   ignore line: [Thread model: posix]
-  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec3261330728 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a]
+  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -dynamic -arch x86_64 -macosx_version_min 10.10.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -o cmTryCompileExec717922544 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a]
     arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
     arg [-demangle] ==> ignore
     arg [-dynamic] ==> ignore
@@ -224,11 +224,11 @@ Parsed CXX implicit link information from above output:
     arg [-syslibroot] ==> ignore
     arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTryCompileExec3261330728] ==> ignore
+    arg [cmTryCompileExec717922544] ==> ignore
     arg [-search_paths_first] ==> ignore
     arg [-headerpad_max_install_names] ==> ignore
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTryCompileExec3261330728.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTryCompileExec717922544.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lc++] ==> lib [c++]
     arg [-lSystem] ==> lib [System]
     arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/6.1.0/lib/darwin/libclang_rt.osx.a]
@@ -246,16 +246,16 @@ Parsed CXX implicit link information from above output:
 
 
 Detecting CXX [-std=c++1y] compiler features compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec4170164244/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec4170164244.dir/build.make CMakeFiles/cmTryCompileExec4170164244.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec4170164244.dir/feature_tests.cxx.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c++1y -o CMakeFiles/cmTryCompileExec4170164244.dir/feature_tests.cxx.o -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTryCompileExec4170164244
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec4170164244.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec4170164244.dir/feature_tests.cxx.o  -o cmTryCompileExec4170164244  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec3407290833/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec3407290833.dir/build.make CMakeFiles/cmTryCompileExec3407290833.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building CXX object CMakeFiles/cmTryCompileExec3407290833.dir/feature_tests.cxx.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c++1y -o CMakeFiles/cmTryCompileExec3407290833.dir/feature_tests.cxx.o -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTryCompileExec3407290833
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3407290833.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec3407290833.dir/feature_tests.cxx.o  -o cmTryCompileExec3407290833  
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -318,16 +318,16 @@ Linking CXX executable cmTryCompileExec4170164244
 
 
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2655734979/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2655734979.dir/build.make CMakeFiles/cmTryCompileExec2655734979.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2655734979.dir/feature_tests.cxx.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c++11 -o CMakeFiles/cmTryCompileExec2655734979.dir/feature_tests.cxx.o -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTryCompileExec2655734979
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2655734979.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2655734979.dir/feature_tests.cxx.o  -o cmTryCompileExec2655734979  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec2330991230/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2330991230.dir/build.make CMakeFiles/cmTryCompileExec2330991230.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building CXX object CMakeFiles/cmTryCompileExec2330991230.dir/feature_tests.cxx.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c++11 -o CMakeFiles/cmTryCompileExec2330991230.dir/feature_tests.cxx.o -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTryCompileExec2330991230
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2330991230.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2330991230.dir/feature_tests.cxx.o  -o cmTryCompileExec2330991230  
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -390,16 +390,16 @@ Linking CXX executable cmTryCompileExec2655734979
 
 
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
-Change Dir: /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp
+Change Dir: /Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTryCompileExec2578913544/fast"
-/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec2578913544.dir/build.make CMakeFiles/cmTryCompileExec2578913544.dir/build
-/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/CMakeTmp/CMakeFiles 1
-Building CXX object CMakeFiles/cmTryCompileExec2578913544.dir/feature_tests.cxx.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c++98 -o CMakeFiles/cmTryCompileExec2578913544.dir/feature_tests.cxx.o -c /Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTryCompileExec2578913544
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2578913544.dir/link.txt --verbose=1
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec2578913544.dir/feature_tests.cxx.o  -o cmTryCompileExec2578913544  
+Run Build Command:"/usr/bin/make" "cmTryCompileExec756178803/fast"
+/Applications/Xcode.app/Contents/Developer/usr/bin/make -f CMakeFiles/cmTryCompileExec756178803.dir/build.make CMakeFiles/cmTryCompileExec756178803.dir/build
+/Applications/CMake.app/Contents/bin/cmake -E cmake_progress_report "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/CMakeTmp/CMakeFiles" 1
+Building CXX object CMakeFiles/cmTryCompileExec756178803.dir/feature_tests.cxx.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk   -std=c++98 -o CMakeFiles/cmTryCompileExec756178803.dir/feature_tests.cxx.o -c "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTryCompileExec756178803
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec756178803.dir/link.txt --verbose=1
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTryCompileExec756178803.dir/feature_tests.cxx.o  -o cmTryCompileExec756178803  
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers

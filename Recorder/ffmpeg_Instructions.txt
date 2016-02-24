@@ -1,0 +1,18 @@
+To create the .mkv files for the results of the Recorder, do:
+
+1. cd to the directory of the folder that contains the .avi and .srt files
+2. run the below command (make sure to adjust your ffmpeg file location as necessary).
+
+a=($(ls -1 | sed -e 's/\..*$//' | sed '$!N; /^\(.*\)\n\1$/!P; D'))
+for i in "${a[@]}"; do
+ffmpeg -i ${i}.avi -i ${i}.srt -c:s srt -c:v copy -c:a copy ${i}.mkv
+done
+
+
+
+
+This is how it looks on my PC:
+a=($(ls -1 | sed -e 's/\..*$//' | sed '$!N; /^\(.*\)\n\1$/!P; D'))
+for i in "${a[@]}"; do
+../../../../../../FFMPEG/SnowLeopard_Lion_Mountain_Lion_Mavericks_Yosemite_El-Captain_16/ffmpeg -i ${i}.avi -i ${i}.srt -c:s srt -c:v copy -c:a copy ${i}.mkv
+done

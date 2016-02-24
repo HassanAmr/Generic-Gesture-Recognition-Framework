@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/Recorder.cpp
+/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/Recorder.cpp
 iostream
 -
 string
@@ -15,8 +15,18 @@ time.h
 -
 thread
 -
+stdio.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+sys/time.h
+-
+stdexcept
+-
 opencv2/opencv.hpp
-/Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/opencv2/opencv.hpp
+/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/opencv2/opencv.hpp
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h

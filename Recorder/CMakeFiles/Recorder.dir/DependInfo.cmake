@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/Recorder.cpp" "/Users/Hassan/GitHub/Generic-Gesture-Recognition-Framework/Recorder/CMakeFiles/Recorder.dir/Recorder.cpp.o"
+  "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/Recorder.cpp" "/Users/Hassan/Documents/Uni Freiburg/Courses/Embedded Systems Praktikum/OpenCV/Recorder/CMakeFiles/Recorder.dir/Recorder.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 
