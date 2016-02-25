@@ -33,10 +33,7 @@ int selectedItem = 0;
 int selectedR = 0;
 int selectedG = 0;
 int selectedB = 0;
-void Item_Selector(int, void* );//Item selector
-void Red_Modifier(int, void* );//Red component modifier
-void Green_Modifier(int, void* );//Green component modifier
-void Blue_Modifier(int, void* );//Blue component modifier
+void Color_Modifier(int, void* );
 //void Hist_and_Backproj(int, void* );//For Plot resolution
 
 
@@ -51,6 +48,7 @@ bool streaming = true;//to terminate the SensorStream thread when program exits 
 
 int sensorVectorSize;//the number of expected inputs per 1 feed from the sensor
 double * plotValues;//This array will hold the values for the plots
+Scalar *plotColors;//This array will hold the colors of the lines for the different inputs
 int plotValuesArraySize;
 double lastReceivedVal;//because I'm stupid, and didn't compile my opencv with c++11, I have to create this variable, and hope that a race condition will not occur
 
@@ -113,7 +111,6 @@ int main(int argc, const char * argv[]){
   
   int frame_width=   vcap.get(CV_CAP_PROP_FRAME_WIDTH);
   int frame_height=   vcap.get(CV_CAP_PROP_FRAME_HEIGHT);
-  Scalar *plotColors;
   plotColors = new Scalar [sensorVectorSize];
   RNG rng( 0xFFFFFFFF );
   for (int i = 0; i < sensorVectorSize; i++)
@@ -122,6 +119,9 @@ int main(int argc, const char * argv[]){
   }
 
   int plot_w = 250; int plot_h = frame_height;
+  int r_Plot = 0;
+  int g_Plot = 0;
+  int b_Plot = 0;
   //int bin_w = cvRound( (double) hist_w/histSize );
   plotValuesArraySize = sensorVectorSize * plot_w;
   //int bin_w = cvRound( (double) hist_w/plotValuesArraySize );
@@ -145,15 +145,20 @@ int main(int argc, const char * argv[]){
   int recordingsCounter = 1;
 
 
-  const char* control_window = "Plot Control Panel";
+  //const char* control_window = "Plot Control Panel";
 
-  namedWindow(control_window, WINDOW_NORMAL);
-  createTrackbar("Object: ", control_window, &selectedItem, sensorVectorSize, Item_Selector );
-  createTrackbar("Red component: ", control_window, &selectedR, 255, Red_Modifier );
-  createTrackbar("Green component: ", control_window, &selectedG, 255, Green_Modifier );
-  createTrackbar("Blue component: ", control_window, &selectedB, 255, Blue_Modifier );
-    
-  //------------------------------------
+  namedWindow("Plot Control Panel", WINDOW_NORMAL);
+
+  //const char* trackBarObject = "Object";
+  //const char* trackBarRed = "Red";
+  //const char* trackBarGreen = "Green";
+  //const char* trackBarBlue = "Blue";
+  createTrackbar("Object", "Plot Control Panel", &selectedItem, sensorVectorSize, NULL );  
+  createTrackbar("Red", "Plot Control Panel", &selectedR, 255, Color_Modifier ); 
+  createTrackbar("Green", "Plot Control Panel", &selectedG, 255, Color_Modifier );
+  createTrackbar("Blue", "Plot Control Panel", &selectedB, 255, Color_Modifier );
+  
+  resizeWindow("Plot Control Panel", 500,150);
   for(;;){
 
     if (startedRecording)
@@ -178,7 +183,16 @@ int main(int argc, const char * argv[]){
 
     Mat frame;
     vcap >> frame;
-    Mat plotImage( plot_h, plot_w, CV_8UC3, Scalar( 0,0,0) );
+
+    if (getTrackbarPos("Object", "Plot Control Panel") == 0)//check to see if user wants to change color of the background of the plot or not
+    {
+      r_Plot = getTrackbarPos("Red", "Plot Control Panel");
+      g_Plot = getTrackbarPos("Green", "Plot Control Panel");
+      b_Plot = getTrackbarPos("Blue", "Plot Control Panel");
+
+    }
+
+    Mat plotImage( plot_h, plot_w, CV_8UC3, Scalar( b_Plot,g_Plot,r_Plot) );
 
     //Plotting
     for( int i = 0; i < plot_w - 1; i++ )
@@ -272,21 +286,15 @@ int main(int argc, const char * argv[]){
 
 }
 
-void Item_Selector(int, void* )
+void Color_Modifier(int, void* )
 {
-
-}
-
-void Red_Modifier(int, void* )
-{
-
-}
-void Green_Modifier(int, void* )
-{
-
-}
-void Blue_Modifier(int, void* )
-{
+  int index = getTrackbarPos("Object", "Plot Control Panel");
+  if (index > 0)
+  {
+    plotColors[index - 1][0] = getTrackbarPos("Blue", "Plot Control Panel");
+    plotColors[index - 1][1] = getTrackbarPos("Green", "Plot Control Panel");
+    plotColors[index - 1][2] = getTrackbarPos("Red", "Plot Control Panel");
+  }
 
 }
 
