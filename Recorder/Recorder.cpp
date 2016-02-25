@@ -20,6 +20,7 @@ using namespace std;
 using namespace cv;
 
 void Help();
+void PlotUpdater();
 void SensorStream();
 void Timer();
 void WriteSRT(int lineCounter, String data);
@@ -27,15 +28,31 @@ String FromMillisecondsToSRTFormat(unsigned long val);
 int CreateDirectories(String, String);//this function will create the necessary folders for the recorder
 
 
+//Trackbars
+int selectedItem = 0;
+int selectedR = 0;
+int selectedG = 0;
+int selectedB = 0;
+void Item_Selector(int, void* );//Item selector
+void Red_Modifier(int, void* );//Red component modifier
+void Green_Modifier(int, void* );//Green component modifier
+void Blue_Modifier(int, void* );//Blue component modifier
+//void Hist_and_Backproj(int, void* );//For Plot resolution
+
+
 //Globals
 FILE * srtFile;
 FILE * trainingFile;
 
 
-bool recording = false;
-bool terminating = false;
+bool recording = false;//to help the SensorStream thread know when to write the 
+bool terminating = false;//to terminate the timer thread when program exits adequately
+bool streaming = true;//to terminate the SensorStream thread when program exits adequately
 
-int sensorVectorSize;
+int sensorVectorSize;//the number of expected inputs per 1 feed from the sensor
+double * plotValues;//This array will hold the values for the plots
+int plotValuesArraySize;
+double lastReceivedVal;//because I'm stupid, and didn't compile my opencv with c++11, I have to create this variable, and hope that a race condition will not occur
 
 struct timeval tv;
 
@@ -65,12 +82,6 @@ int main(int argc, const char * argv[]){
     return 1;
   }
 
-  thread ss (SensorStream);
-  thread tr (Timer);
-
-  ss.detach();
-  tr.detach();
-
   //-------------------------------------- 
   time_t session;
   char buffer [80];
@@ -90,34 +101,59 @@ int main(int argc, const char * argv[]){
     printf("The was an error creating the necessary folders for the recorder, the program will now exit.\n");
     return 1;
   }
-  //--------------------------------------
-  
-  //This part is repeated
-  //String vidFileName =      "Output/" + recorderName + "/" + sessionName + "/Video/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter) + ".avi";
-  //String srtFileName =      "Output/" + recorderName + "/" + sessionName + "/Video/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter) + ".srt";
-  //String trainingFileName = "Output/" + recorderName + "/" + sessionName + "/Training/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter);
-  //--------------------------------------
-  //srtFile = fopen (srtFileName.c_str(),"w");
-  //trainingFile = fopen (trainingFileName.c_str()  ,"w");
-  //fprintf (srtFile, "\n");//this is only done to create the folder for the recorder if this person is recording for the first time.
-
 
   VideoCapture vcap(0); 
   if(!vcap.isOpened()){
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
-
-  //int blinks_number = 1;
-
+  
+  //allocate memory and start threads here after passing all cases in which program might exit
+  
+  
   int frame_width=   vcap.get(CV_CAP_PROP_FRAME_WIDTH);
   int frame_height=   vcap.get(CV_CAP_PROP_FRAME_HEIGHT);
+  Scalar *plotColors;
+  plotColors = new Scalar [sensorVectorSize];
+  RNG rng( 0xFFFFFFFF );
+  for (int i = 0; i < sensorVectorSize; i++)
+  {
+    plotColors[i] = Scalar(rng.uniform(0,255), rng.uniform(0, 255), rng.uniform(0, 255));
+  }
+
+  int plot_w = 250; int plot_h = frame_height;
+  //int bin_w = cvRound( (double) hist_w/histSize );
+  plotValuesArraySize = sensorVectorSize * plot_w;
+  //int bin_w = cvRound( (double) hist_w/plotValuesArraySize );
+  
+  plotValues = new double [plotValuesArraySize];
+  for (int i = 0; i < plotValuesArraySize; i++)
+  {
+    plotValues[i] = 0.0;
+  }
+  
+  thread ss (SensorStream);
+  thread tr (Timer);
+
+  ss.detach();
+  tr.detach();
 
   //VideoWriter video(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width,frame_height),true);
   //VideoWriter video("Folder/file.avi",CV_FOURCC('M','J','P','G'),10, Size(frame_width,frame_height),true);
 
   VideoWriter * video;
   int recordingsCounter = 1;
+
+
+  const char* control_window = "Plot Control Panel";
+
+  namedWindow(control_window, WINDOW_NORMAL);
+  createTrackbar("Object: ", control_window, &selectedItem, sensorVectorSize, Item_Selector );
+  createTrackbar("Red component: ", control_window, &selectedR, 255, Red_Modifier );
+  createTrackbar("Green component: ", control_window, &selectedG, 255, Green_Modifier );
+  createTrackbar("Blue component: ", control_window, &selectedB, 255, Blue_Modifier );
+    
+  //------------------------------------
   for(;;){
 
     if (startedRecording)
@@ -128,7 +164,7 @@ int main(int argc, const char * argv[]){
       String trainingFileName = "Output/" + recorderName + "/" + sessionName + "/Training/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter);
       srtFile = fopen (srtFileName.c_str(),"w");
       trainingFile = fopen (trainingFileName.c_str()  ,"w");
-      video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width,frame_height),true);
+      video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width + plot_w,frame_height),true);
       startedRecording = false;
     }
 
@@ -142,10 +178,25 @@ int main(int argc, const char * argv[]){
 
     Mat frame;
     vcap >> frame;
+    Mat plotImage( plot_h, plot_w, CV_8UC3, Scalar( 0,0,0) );
 
-    //TODO: put in a thread later to write the input received by sensors
-    //fprintf (pFile, "Seq %d:\n", seq_num);
+    //Plotting
+    for( int i = 0; i < plot_w - 1; i++ )
+    {
+      for (int j = 0; j < sensorVectorSize; j++)
+      {
+        line( plotImage, Point( i, plot_h/2 - cvRound(plotValues[i*sensorVectorSize+j]) ) ,
+                         Point( i + 1, plot_h/2 - cvRound(plotValues[i*sensorVectorSize+j + sensorVectorSize]) ),
+                         plotColors[j], 1, 8, 0  );
+      }
+      
+    }
+    //namedWindow("Plot", CV_WINDOW_AUTOSIZE );
+    //imshow("Plot", plotImage );
 
+    Mat display = Mat::zeros ( MAX ( frame.rows, plotImage.rows ), frame.cols + plotImage.cols, frame.type() );
+
+    plotImage.copyTo ( Mat ( display, Rect ( frame.cols, 0, plotImage.cols, plotImage.rows ) ) );
     if (recording)
     {
       String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeNow - startTime);//Check if possible to add a comma.
@@ -155,22 +206,34 @@ int main(int argc, const char * argv[]){
       
       putText(frame, disp1, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);
       //putText(frame, disp2, Point(20, 60), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);
-
-      video->write(frame); //Record the video till here. It is not needed to have a recording indicator in the recoring output
+      
+      frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
+      video->write(display); //Record the video till here. It is not needed to have a recording indicator in the recoring output
 
       //Recording Indicator
-      circle(frame, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
-      putText(frame, "RECORDING", Point(40, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 1);
+      circle(display, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
+      putText(display, "RECORDING", Point(40, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 1);
     }
-
+    else
+    {
+      frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
+    }
+    
     //++blinks_number;
-    //namedWindow("Control Panel");
-    imshow( "Recorder", frame );
+    
+    imshow( "Recorder", display );
     char c = (char)waitKey(33);
     if( c == 27 ) //Escape button pressed
     {
-      recording = false;
+      if (recording)
+      {
+        fclose (srtFile);
+        fclose (trainingFile);
+        recording = false;
+      }
+     
       terminating = true;
+      streaming = false;
       break;
     }
     else if (c == 'r')
@@ -189,7 +252,7 @@ int main(int argc, const char * argv[]){
       startTime = (unsigned long long)(tv.tv_sec) * 1000 + (unsigned long long)(tv.tv_usec) / 1000;
       recording = !recording;
     }
-    //a failed attempt to restart streaming in case the stream feed was interrupted, but eitherway, the piping program has to be restarted.
+    //a failed attempt to restart streaming in case the stream feed was interrupted, because eitherway, the piping program has to be restarted.
     //else if (c == 's')
     //{
     //  if (!streaming)
@@ -199,12 +262,44 @@ int main(int argc, const char * argv[]){
     //    streaming = true;
     //  }
     //} 
-  } 
+  }
+  delete plotValues;
+  delete plotColors;
   delete video;
+
   
   return 0;
 
 }
+
+void Item_Selector(int, void* )
+{
+
+}
+
+void Red_Modifier(int, void* )
+{
+
+}
+void Green_Modifier(int, void* )
+{
+
+}
+void Blue_Modifier(int, void* )
+{
+
+}
+
+void PlotUpdater()
+{
+  plotValues[plotValuesArraySize - 1] = lastReceivedVal;
+  for (int i = 0; i < plotValuesArraySize - 1; i++)
+  {
+    plotValues[i] = plotValues[i + 1];
+  }
+  
+}
+
 
 void SensorStream()
 {
@@ -212,9 +307,7 @@ void SensorStream()
 
   char buffer[256];
   double val;
-  
-  bool streaming = true;
-  
+
   bool startWriting = false;//this is to align the stream with the recording
 
   //Data specific to write the srt file
@@ -229,6 +322,9 @@ void SensorStream()
       try
       {
         val = stof(buffer);
+        lastReceivedVal = val;
+        thread pu (PlotUpdater);
+        pu.detach();
         if(recording)
         {
           if (startWriting)
