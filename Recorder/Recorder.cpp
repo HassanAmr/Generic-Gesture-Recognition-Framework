@@ -3,7 +3,9 @@
 #include <string>   // for strings
 #include <time.h>
 #include <thread>
+#include <fstream>
 #include <stdio.h>
+#include <assert.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -26,6 +28,9 @@ void Timer();
 void WriteSRT(int lineCounter, String data);
 String FromMillisecondsToSRTFormat(unsigned long val);
 int CreateDirectories(String, String);//this function will create the necessary folders for the recorder
+void WriteLittleEndian(unsigned int word, int num_bytes);
+void WriteWavHeader(const char * filename, int s_rate, int no_input);
+unsigned int FloatToBits(float x);
 
 
 //Trackbars
@@ -39,14 +44,20 @@ void Color_Modifier(int, void* );
 
 //Globals
 FILE * srtFile;
-FILE * trainingFile;
+//FILE * trainingFile;//TODO: Delete later
+FILE * audioFile;
 
-
+bool recordingVideo = false;
+bool recordingStream = false;//to help the SensorStream thread know when to write the 
 bool recording = false;//to help the SensorStream thread know when to write the 
 bool terminating = false;//to terminate the timer thread when program exits adequately
 bool streaming = true;//to terminate the SensorStream thread when program exits adequately
+bool startWriting = false;//this is to align the stream with the recordingx
 
 int sensorVectorSize;//the number of expected inputs per 1 feed from the sensor
+int samplingFrequency;//the frequency of which a set of sensor feed is sent
+
+bool plot = false;
 double * plotValues;//This array will hold the values for the plots
 Scalar *plotColors;//This array will hold the colors of the lines for the different inputs
 int plotValuesArraySize;
@@ -65,14 +76,18 @@ int main(int argc, const char * argv[]){
   Help();
 
   String recorderName = "";
-  String recorderObject = "";
-
 
   if (argc > 3)
   {
     recorderName = argv[1];
-    recorderObject = argv[2];
-    sensorVectorSize = atoi(argv[3]);//TODO: handle error later
+    //recorderObject = argv[2];
+    sensorVectorSize = atoi(argv[2]);//TODO: handle error later
+    samplingFrequency = atof(argv[3]);//TODO: handle error later
+    if (argc > 4)
+    {
+      plot = true;//TODO: make it that the argument should be PLOT, rather than anything as it is now.
+    }
+
   }
   else
   {
@@ -111,27 +126,50 @@ int main(int argc, const char * argv[]){
   
   int frame_width=   vcap.get(CV_CAP_PROP_FRAME_WIDTH);
   int frame_height=   vcap.get(CV_CAP_PROP_FRAME_HEIGHT);
-  plotColors = new Scalar [sensorVectorSize];
-  RNG rng( 0xFFFFFFFF );
-  for (int i = 0; i < sensorVectorSize; i++)
-  {
-    plotColors[i] = Scalar(rng.uniform(0,255), rng.uniform(0, 255), rng.uniform(0, 255));
-  }
-
+  
   int plot_w = 250; int plot_h = frame_height;
   int r_Plot = 0;
   int g_Plot = 0;
   int b_Plot = 0;
-  //int bin_w = cvRound( (double) hist_w/histSize );
-  plotValuesArraySize = sensorVectorSize * plot_w;
-  //int bin_w = cvRound( (double) hist_w/plotValuesArraySize );
-  
-  plotValues = new double [plotValuesArraySize];
-  for (int i = 0; i < plotValuesArraySize; i++)
+  if (plot)
   {
-    plotValues[i] = 0.0;
-  }
+    plotColors = new Scalar [sensorVectorSize];
+    
+    RNG rng( 0xFFFFFFFF );
+    for (int i = 0; i < sensorVectorSize; i++)
+    {
+      plotColors[i] = Scalar(rng.uniform(0,255), rng.uniform(0, 255), rng.uniform(0, 255));
+    }
+
+    
+    //int bin_w = cvRound( (double) hist_w/histSize );
+    plotValuesArraySize = sensorVectorSize * plot_w;
+    //int bin_w = cvRound( (double) hist_w/plotValuesArraySize );
+    
+    plotValues = new double [plotValuesArraySize];
+    for (int i = 0; i < plotValuesArraySize; i++)
+    {
+      plotValues[i] = 0.0;
+    }
+
+    namedWindow("Plot Control Panel", WINDOW_NORMAL);
+
+    //const char* trackBarObject = "Object";
+    //const char* trackBarRed = "Red";
+    //const char* trackBarGreen = "Green";
+    //const char* trackBarBlue = "Blue";
+    createTrackbar("Object", "Plot Control Panel", &selectedItem, sensorVectorSize, NULL );  
+    createTrackbar("Red", "Plot Control Panel", &selectedR, 255, Color_Modifier ); 
+    createTrackbar("Green", "Plot Control Panel", &selectedG, 255, Color_Modifier );
+    createTrackbar("Blue", "Plot Control Panel", &selectedB, 255, Color_Modifier );
   
+    resizeWindow("Plot Control Panel", 500,150);
+  }
+    
+  ifstream infile("Gestures");
+
+  string gestureString;
+
   thread ss (SensorStream);
   thread tr (Timer);
 
@@ -143,40 +181,40 @@ int main(int argc, const char * argv[]){
 
   VideoWriter * video;
   int recordingsCounter = 1;
-
+  bool readyForGesture = false; //this will be used to indicate whether the recorder is ready to record a gesture or not.
 
   //const char* control_window = "Plot Control Panel";
 
-  namedWindow("Plot Control Panel", WINDOW_NORMAL);
-
-  //const char* trackBarObject = "Object";
-  //const char* trackBarRed = "Red";
-  //const char* trackBarGreen = "Green";
-  //const char* trackBarBlue = "Blue";
-  createTrackbar("Object", "Plot Control Panel", &selectedItem, sensorVectorSize, NULL );  
-  createTrackbar("Red", "Plot Control Panel", &selectedR, 255, Color_Modifier ); 
-  createTrackbar("Green", "Plot Control Panel", &selectedG, 255, Color_Modifier );
-  createTrackbar("Blue", "Plot Control Panel", &selectedB, 255, Color_Modifier );
   
-  resizeWindow("Plot Control Panel", 500,150);
   for(;;){
 
     if (startedRecording)
     {
       //TODO: make the files naming also suitable for windows
-      String vidFileName =      "Output/" + recorderName + "/" + sessionName + "/Video/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter) + ".avi";
-      String srtFileName =      "Output/" + recorderName + "/" + sessionName + "/Video/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter) + ".srt";
-      String trainingFileName = "Output/" + recorderName + "/" + sessionName + "/Training/" + recorderObject + "_" + recorderName + "_" + std::to_string(recordingsCounter);
+      String vidFileName =      "Videos/" + recorderName + "/" + sessionName + "/" + std::to_string(recordingsCounter) + ".avi";
+      String srtFileName =      "Videos/" + recorderName + "/" + sessionName + "/" + std::to_string(recordingsCounter) + ".srt";
+      String audioFileName =      "Videos/" + recorderName + "/" + sessionName + "/" + std::to_string(recordingsCounter) + ".wav";
+      //String trainingFileName = "Output/" + recorderName + "/" + sessionName + "/Training/" + std::to_string(recordingsCounter);//TODO: Delete later
       srtFile = fopen (srtFileName.c_str(),"w");
-      trainingFile = fopen (trainingFileName.c_str()  ,"w");
-      video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width + plot_w,frame_height),true);
+      //trainingFile = fopen (trainingFileName.c_str()  ,"w");
+      WriteWavHeader(audioFileName.c_str(), samplingFrequency, sensorVectorSize);
+      if (plot)
+      {
+        video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width + plot_w,frame_height),true);  
+      }
+      else
+      {
+        video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width,frame_height),true);
+      }
+      
       startedRecording = false;
     }
 
     if (stoppedRecording)
     {
       fclose (srtFile);
-      fclose (trainingFile);
+      //fclose (trainingFile);
+      fclose (audioFile);
       recordingsCounter++;
       stoppedRecording = false;
     }
@@ -184,65 +222,83 @@ int main(int argc, const char * argv[]){
     Mat frame;
     vcap >> frame;
 
-    if (getTrackbarPos("Object", "Plot Control Panel") == 0)//check to see if user wants to change color of the background of the plot or not
+    if (plot)
     {
-      r_Plot = getTrackbarPos("Red", "Plot Control Panel");
-      g_Plot = getTrackbarPos("Green", "Plot Control Panel");
-      b_Plot = getTrackbarPos("Blue", "Plot Control Panel");
-
-    }
-
-    Mat plotImage( plot_h, plot_w, CV_8UC3, Scalar( b_Plot,g_Plot,r_Plot) );
-
-    //Plotting
-    for( int i = 0; i < plot_w - 1; i++ )
-    {
-      for (int j = 0; j < sensorVectorSize; j++)
+      if (getTrackbarPos("Object", "Plot Control Panel") == 0)//check to see if user wants to change color of the background of the plot or not
       {
-        line( plotImage, Point( i, plot_h/2 - cvRound(plotValues[i*sensorVectorSize+j]) ) ,
-                         Point( i + 1, plot_h/2 - cvRound(plotValues[i*sensorVectorSize+j + sensorVectorSize]) ),
-                         plotColors[j], 1, 8, 0  );
+        r_Plot = getTrackbarPos("Red", "Plot Control Panel");
+        g_Plot = getTrackbarPos("Green", "Plot Control Panel");
+        b_Plot = getTrackbarPos("Blue", "Plot Control Panel");
+
       }
-      
-    }
-    //namedWindow("Plot", CV_WINDOW_AUTOSIZE );
-    //imshow("Plot", plotImage );
 
-    Mat display = Mat::zeros ( MAX ( frame.rows, plotImage.rows ), frame.cols + plotImage.cols, frame.type() );
+      Mat plotImage( plot_h, plot_w, CV_8UC3, Scalar( b_Plot,g_Plot,r_Plot) );
 
-    plotImage.copyTo ( Mat ( display, Rect ( frame.cols, 0, plotImage.cols, plotImage.rows ) ) );
-    if (recording)
-    {
-      String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeNow - startTime);//Check if possible to add a comma.
-      //String disp1 = "Time: " + std::to_string (difftime( time(0), timer));
-      //The frame number (commented for now, as it has no useful purpose)
-      //String disp2 = "Frame # " + std::to_string(blinks_number);
-      
-      putText(frame, disp1, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);
-      //putText(frame, disp2, Point(20, 60), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);
-      
-      frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
-      video->write(display); //Record the video till here. It is not needed to have a recording indicator in the recoring output
+      //Plotting
+      for( int i = 0; i < plot_w - 1; i++ )
+      {
+        for (int j = 0; j < sensorVectorSize; j++)
+        {
+          line( plotImage, Point( i, plot_h/2 - cvRound(plotValues[i*sensorVectorSize+j]) ) ,
+                           Point( i + 1, plot_h/2 - cvRound(plotValues[i*sensorVectorSize+j + sensorVectorSize]) ),
+                           plotColors[j], 1, 8, 0  );
+        }
+        
+      }
+      //namedWindow("Plot", CV_WINDOW_AUTOSIZE );
+      //imshow("Plot", plotImage );
 
-      //Recording Indicator
-      circle(display, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
-      putText(display, "RECORDING", Point(40, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 1);
+      Mat display = Mat::zeros ( MAX ( frame.rows, plotImage.rows ), frame.cols + plotImage.cols, frame.type() );
+
+      plotImage.copyTo ( Mat ( display, Rect ( frame.cols, 0, plotImage.cols, plotImage.rows ) ) );
+      if (startWriting)
+      {
+        String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeNow - startTime);//Check if possible to add a comma.      
+        putText(frame, disp1, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);     
+        frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
+        video->write(display); //Record the video till here. It is not needed to have a recording indicator in the recoring output
+
+        //Recording Indicator
+        circle(display, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
+        putText(display, "RECORDING", Point(40, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 1);
+      }
+      else
+      {
+        frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
+      }
+
+      imshow( "Recorder", display );
+
+
     }
     else
     {
-      frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
+      if (startWriting)
+      {
+        String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeNow - startTime);//Check if possible to add a comma.      
+        putText(frame, disp1, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);     
+        video->write(frame); //Record the video till here. It is not needed to have a recording indicator in the recoring output
+
+        //Recording Indicator
+        circle(frame, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
+        putText(frame, "RECORDING", Point(40, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 1);
+      }
+      imshow( "Recorder", frame );
     }
+
+
     
     //++blinks_number;
     
-    imshow( "Recorder", display );
+    
     char c = (char)waitKey(33);
     if( c == 27 ) //Escape button pressed
     {
       if (recording)
       {
         fclose (srtFile);
-        fclose (trainingFile);
+        //fclose (trainingFile);
+        fclose(audioFile);
         recording = false;
       }
      
@@ -265,6 +321,40 @@ int main(int argc, const char * argv[]){
       gettimeofday(&tv, NULL);
       startTime = (unsigned long long)(tv.tv_sec) * 1000 + (unsigned long long)(tv.tv_usec) / 1000;
       recording = !recording;
+    }
+    else if (c == 'n')
+    {
+      if (recording)
+      {
+        if(getline(infile, gestureString))
+        {
+          printf("Recording gesture %s. Press s when ready to record the gesture, and then s again when finnied.\n", gestureString.c_str());
+          readyForGesture = true;
+        }
+        else
+        {
+          printf("No more gestures to record, you can now end the recording session.\n");
+        }
+      }
+      else
+      {
+        printf("Please start a recording session before trying to record a gestrue.\n");
+      }
+      
+    }
+    else if(c == 's')
+    {
+      //if (readyForGesture && not another bool)
+      //{
+        //record the time at this instance for the srt file, and write it there
+        //srtTime += FromMillisecondsToSRTFormat(timeNow - startTime);
+        //another bool should be true
+      //}
+      //else if (!readyForGesture && another bool)
+      //{
+        //record the time, and write in SRT file the time, and the string
+
+      //}
     }
     //a failed attempt to restart streaming in case the stream feed was interrupted, because eitherway, the piping program has to be restarted.
     //else if (c == 's')
@@ -314,14 +404,12 @@ void SensorStream()
  //double sensorData[sensorVectorSize];
 
   char buffer[256];
-  double val;
-
-  bool startWriting = false;//this is to align the stream with the recording
+  float val;
 
   //Data specific to write the srt file
-  int srtLineCounter = 1;
-  String srtData = "";
-  String srtTime = "";
+  //int srtLineCounter = 1;
+  //String srtData = "";
+  //String srtTime = "";
   while (streaming)
   {
     for(int i = 0; i < sensorVectorSize; i++)
@@ -330,34 +418,40 @@ void SensorStream()
       try
       {
         val = stof(buffer);
-        lastReceivedVal = val;
-        thread pu (PlotUpdater);
-        pu.detach();
+        
+        if (plot)//will only plot if the user entered the argument to plot while recording. This saves a lot of resources. And avoids the potentional data races
+        {
+          lastReceivedVal = val;
+          thread pu (PlotUpdater);
+          pu.detach();
+        }
         if(recording)
         {
           if (startWriting)
           {
-            if (i==0)//this is only concerned with the srt file to document the time at which the first value arrived
-              srtTime += FromMillisecondsToSRTFormat(timeNow - startTime);
+            //TODO: implement the below code (1 line only) in the part where the key s is recognized
+            //if (i==0)//this is only concerned with the srt file to document the time at which the first value arrived
+              //srtTime += FromMillisecondsToSRTFormat(timeNow - startTime);
 
-            fprintf (trainingFile, "%5.2f", val);
-            srtData += buffer;//TODO: consider taking only 2 decimal places
+            WriteLittleEndian(FloatToBits(val), 4);
+            //fprintf (trainingFile, "%5.2f", val);
+            //srtData += buffer;//TODO: consider taking only 2 decimal places
             //sprintf(strData, "%5.2f", val);
-            if (i == sensorVectorSize - 1)
-            {
-              fprintf (trainingFile, "\n");
-              srtData += "\n";
-              srtTime += " --> "+ FromMillisecondsToSRTFormat(timeNow - startTime) + "\n";
-              WriteSRT(srtLineCounter, srtTime + srtData);//send here the print value to the WriteSRT function
-              srtData = "";
-              srtTime = "";
-              srtLineCounter++;
-            } 
-            else
-            {
-              fprintf (trainingFile, "\t");
-              srtData += "\t";
-            }
+            //if (i == sensorVectorSize - 1)
+            //{
+              //fprintf (trainingFile, "\n");
+              //srtData += "\n";
+              //srtTime += " --> "+ FromMillisecondsToSRTFormat(timeNow - startTime) + "\n";
+              //WriteSRT(srtLineCounter, srtTime + srtData);//send here the print value to the WriteSRT function
+              //srtData = "";
+              //srtTime = "";
+              //srtLineCounter++;
+            //} 
+            //else
+            //{
+            //  fprintf (trainingFile, "\t");
+            //  srtData += "\t";
+            //}
           }
           else if (i == sensorVectorSize - 1)//this ensures that if the recording started in the middle of a vector, that the stream will be aligned with the recording
           {
@@ -366,7 +460,8 @@ void SensorStream()
         }
         else
         {
-          srtLineCounter = 1;
+          //srtLineCounter = 1;
+          startWriting = false;
         }
       }
       catch (const std::invalid_argument& ia)
@@ -412,12 +507,76 @@ String FromMillisecondsToSRTFormat(unsigned long val)
 
 }
 
+unsigned int FloatToBits(float x)
+{
+    unsigned int y;
+    memcpy(&y, &x, 4);
+    return y;
+}
+
+void WriteLittleEndian(unsigned int word, int num_bytes)
+{
+  unsigned buf;
+  while(num_bytes>0)
+  {   
+    buf = word & 0xff;
+    fwrite(&buf, 1,1, audioFile);
+    num_bytes--;
+    word >>= 8;
+  }
+}
+
+
+
+void WriteWavHeader(const char * filename, int s_rate, int no_input)
+{
+  unsigned int sample_rate;
+  unsigned int num_channels;
+  unsigned int bytes_per_sample;
+  unsigned int byte_rate;
+ 
+  num_channels = no_input;//1   /* monoaural */
+  bytes_per_sample = 4;
+ 
+  if (s_rate<=0) sample_rate = 44100;
+  else sample_rate = (unsigned int) s_rate;
+ 
+  byte_rate = sample_rate*num_channels*bytes_per_sample;
+    //byte_rate = 0;
+ 
+  audioFile = fopen(filename, "w");
+  assert(audioFile);   /* make sure it opened */
+ 
+  /* write RIFF header */
+  fwrite("RIFF", 1, 4, audioFile);
+  //WriteLittleEndian(36 + bytes_per_sample* num_samples*num_channels, 4);
+  WriteLittleEndian(0, 4);
+  fwrite("WAVE", 1, 4, audioFile);
+ 
+  /* write fmt  subchunk */
+  fwrite("fmt ", 1, 4, audioFile);
+  WriteLittleEndian(16, 4);   /* SubChunk1Size is 16 */
+  WriteLittleEndian(3, 2);    /* PCM is format 1. IEEE float is format 3*/
+  WriteLittleEndian(num_channels, 2);
+  WriteLittleEndian(sample_rate, 4);
+  WriteLittleEndian(byte_rate, 4);
+  WriteLittleEndian(num_channels*bytes_per_sample, 2);  /* block align */
+  WriteLittleEndian(8*bytes_per_sample, 2);  /* bits/sample */
+ 
+  /* write data subchunk */
+  fwrite("data", 1, 4, audioFile);
+  //WriteLittleEndian(bytes_per_sample* num_samples*num_channels, 4); 
+  WriteLittleEndian(0, 4); 
+
+}
+
 void Help()
 {
     cout << "\nThis program helps you train your sensor data by piping the sensor stream directly into this program.\n\n"
             "Please make sure that the Recorder is active before starting the sensor stream feed, otherwise the feed will not be synchronized.\n\n"
             "Call:\n"
-            "./Recorder [recorder_name] [symbol_to_train] [expected_#_inputs_from_sensor]\n" << endl;
+            "./Recorder [recorder_name] [expected_#_inputs] [sampling_frequency]\n" << endl;
+            //"./Recorder [recorder_name] [symbol_to_train] [expected_#_inputs_from_sensor]\n" << endl;
 
     cout << "Hot keys: *Recorder window must be active for these controls to work.*\n"
             "\tESC - quit the program\n"
@@ -429,7 +588,7 @@ void Help()
 int CreateDirectories(String recorderName, String sessionName)//TODO: make it also suitable for windows
 {
   int returnValue = 0;
-  int status = mkdir("Output", 0777);
+  int status = mkdir("Videos", 0777);
   if ( status == 0)
   {
     printf("Folder created 'Output'\n");
@@ -440,11 +599,11 @@ int CreateDirectories(String recorderName, String sessionName)//TODO: make it al
   }
   else
   {
-    printf("Couldn't create folder the 'Output' folder\n");
+    printf("Couldn't create folder the 'Videos' folder\n");
     returnValue = 1;
   }
 
-  String directoryName = "Output/" + recorderName;
+  String directoryName = "Videos/" + recorderName;
 
   status = mkdir(directoryName.c_str(), 0777);
   if ( status == 0)
@@ -480,35 +639,35 @@ int CreateDirectories(String recorderName, String sessionName)//TODO: make it al
   }
 
 
-  status = mkdir(String(directoryName + "/Video").c_str(), 0777);
-  if ( status == 0)
-  {
+  //status = mkdir(String(directoryName + "/Video").c_str(), 0777);
+  //if ( status == 0)
+  //{
     //printf("");//Not important to mention it again, since we already told the user that a new folder for the recorder has been created.
-  }
-  else if (errno == EEXIST)
-  {
+  //}
+  //else if (errno == EEXIST)
+  //{
     //printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
-  }
-  else
-  {
-    printf("Couldn't create the 'Video' folder for the recorder\n");
-    returnValue =  1;
-  }
+  //}
+  //else
+  //{
+  //  printf("Couldn't create the 'Video' folder for the recorder\n");
+  //  returnValue =  1;
+  //}
 
-  status = mkdir(String(directoryName + "/Training").c_str(), 0777);
-  if (status == 0)
-  {
+  //status = mkdir(String(directoryName + "/Training").c_str(), 0777);
+  //if (status == 0)
+  //{
     //printf("");//Not important to mention it again, since we already told the user that a new folder for the recorder has been created.
-  }
-  else if (errno == EEXIST)
-  {
+  //}
+  //else if (errno == EEXIST)
+  //{
     //printf("");//Here we don't print anything, because it is going to be distrubing whenever we get notfied about the Output folder being already there.
-  }
-  else
-  {
-    printf("Couldn't create the 'Training' folder for the recorder\n");
-    returnValue =  1;
-  }
+  //}
+  //else
+  //{
+  //  printf("Couldn't create the 'Training' folder for the recorder\n");
+  //  returnValue =  1;
+  //}
   printf("\n");
   return returnValue;
 
