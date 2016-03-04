@@ -181,7 +181,13 @@ int main(int argc, const char * argv[]){
 
   VideoWriter * video;
   int recordingsCounter = 1;
+
+
+  //SRT related variables
   bool readyForGesture = false; //this will be used to indicate whether the recorder is ready to record a gesture or not.
+  bool writingSRT = false;
+  int srtLineCounter = 1;
+  String srtData = "";
 
   //const char* control_window = "Plot Control Panel";
 
@@ -215,6 +221,7 @@ int main(int argc, const char * argv[]){
       fclose (srtFile);
       //fclose (trainingFile);
       fclose (audioFile);
+      srtLineCounter = 1;
       recordingsCounter++;
       stoppedRecording = false;
     }
@@ -291,7 +298,7 @@ int main(int argc, const char * argv[]){
     //++blinks_number;
     
     
-    char c = (char)waitKey(33);
+    char c = (char)waitKey(10);//TODO: Check if that is causing a problem
     if( c == 27 ) //Escape button pressed
     {
       if (recording)
@@ -318,17 +325,16 @@ int main(int argc, const char * argv[]){
        startedRecording = true;
        printf("Started recording!\n");
       }
-      gettimeofday(&tv, NULL);
-      startTime = (unsigned long long)(tv.tv_sec) * 1000 + (unsigned long long)(tv.tv_usec) / 1000;
       recording = !recording;
     }
     else if (c == 'n')
     {
+      //TODO: if writingSRT == true
       if (recording)
       {
         if(getline(infile, gestureString))
         {
-          printf("Recording gesture %s. Press s when ready to record the gesture, and then s again when finnied.\n", gestureString.c_str());
+          printf("Recording gesture %s. Press s when ready to record the gesture, and then s again when finished.\n", gestureString.c_str());
           readyForGesture = true;
         }
         else
@@ -344,17 +350,27 @@ int main(int argc, const char * argv[]){
     }
     else if(c == 's')
     {
-      //if (readyForGesture && not another bool)
-      //{
+      if (readyForGesture && !writingSRT)
+      {
         //record the time at this instance for the srt file, and write it there
-        //srtTime += FromMillisecondsToSRTFormat(timeNow - startTime);
-        //another bool should be true
-      //}
-      //else if (!readyForGesture && another bool)
-      //{
-        //record the time, and write in SRT file the time, and the string
-
-      //}
+        srtData += FromMillisecondsToSRTFormat(timeNow - startTime);
+        srtData += " --> ";
+        writingSRT = true;
+        readyForGesture = false;
+        printf("In\n");
+      }
+      else if (!readyForGesture && writingSRT)
+      {
+        srtData += FromMillisecondsToSRTFormat(timeNow - startTime);
+        srtData += "\n";
+        srtData += gestureString + "\n";
+        WriteSRT(srtLineCounter, srtData);
+        srtData = "";
+        srtLineCounter++;
+        writingSRT = false;
+        readyForGesture = true;
+        printf("Out\n");
+      }
     }
     //a failed attempt to restart streaming in case the stream feed was interrupted, because eitherway, the piping program has to be restarted.
     //else if (c == 's')
@@ -455,6 +471,8 @@ void SensorStream()
           }
           else if (i == sensorVectorSize - 1)//this ensures that if the recording started in the middle of a vector, that the stream will be aligned with the recording
           {
+            gettimeofday(&tv, NULL);
+            startTime = (unsigned long long)(tv.tv_sec) * 1000 + (unsigned long long)(tv.tv_usec) / 1000;
             startWriting = true;
           }
         }
