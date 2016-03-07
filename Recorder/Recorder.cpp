@@ -57,6 +57,8 @@ bool startWriting = false;//this is to align the stream with the recordingx
 int sensorVectorSize;//the number of expected inputs per 1 feed from the sensor
 int samplingFrequency;//the frequency of which a set of sensor feed is sent
 
+int audioValuesWritten;
+
 bool plot = false;
 double * plotValues;//This array will hold the values for the plots
 Scalar *plotColors;//This array will hold the colors of the lines for the different inputs
@@ -115,11 +117,21 @@ int main(int argc, const char * argv[]){
     return 1;
   }
 
+  int fps = 10;
+
+  int frameCounter = 0;
+
+  double timeIntegral_FPS = 1000/fps;
+
+
   VideoCapture vcap(0); 
   if(!vcap.isOpened()){
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
+  
+  vcap.set(CV_CAP_PROP_CONVERT_RGB , false);
+  //vcap.set(CV_CAP_PROP_FPS , fps);
   
   //allocate memory and start threads here after passing all cases in which program might exit
   
@@ -182,6 +194,7 @@ int main(int argc, const char * argv[]){
   VideoWriter * video;
   int recordingsCounter = 1;
 
+  unsigned long timeDiff;
 
   //SRT related variables
   bool readyForGesture = false; //this will be used to indicate whether the recorder is ready to record a gesture or not.
@@ -206,11 +219,11 @@ int main(int argc, const char * argv[]){
       WriteWavHeader(audioFileName.c_str(), samplingFrequency, sensorVectorSize);
       if (plot)
       {
-        video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width + plot_w,frame_height),true);  
+        video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),fps, Size(frame_width + plot_w,frame_height),true);  
       }
       else
       {
-        video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),10, Size(frame_width,frame_height),true);
+        video = new VideoWriter(vidFileName,CV_FOURCC('M','J','P','G'),fps, Size(frame_width,frame_height),true);
       }
       
       startedRecording = false;
@@ -260,10 +273,17 @@ int main(int argc, const char * argv[]){
       plotImage.copyTo ( Mat ( display, Rect ( frame.cols, 0, plotImage.cols, plotImage.rows ) ) );
       if (startWriting)
       {
-        String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeNow - startTime);//Check if possible to add a comma.      
+        timeDiff = timeNow - startTime;
+        String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeDiff);
         putText(frame, disp1, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);     
         frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
-        video->write(display); //Record the video till here. It is not needed to have a recording indicator in the recoring output
+        
+        if (frameCounter * timeIntegral_FPS < timeDiff)
+        {
+          video->write(display); //Record the video till here. It is not needed to have a recording indicator in the recoring output
+          frameCounter++;
+        }
+          
 
         //Recording Indicator
         circle(display, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
@@ -282,10 +302,14 @@ int main(int argc, const char * argv[]){
     {
       if (startWriting)
       {
-        String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeNow - startTime);//Check if possible to add a comma.      
-        putText(frame, disp1, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);     
-        video->write(frame); //Record the video till here. It is not needed to have a recording indicator in the recoring output
-
+        timeDiff = timeNow - startTime;
+        String disp1 = "Timer: " + FromMillisecondsToSRTFormat(timeDiff);     
+        putText(frame, disp1, Point(20, 40), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 255, 255), 1);
+        if (frameCounter * timeIntegral_FPS < timeDiff)     
+        {
+          video->write(frame); //Record the video till here. It is not needed to have a recording indicator in the recoring output
+          frameCounter++;
+        }
         //Recording Indicator
         circle(frame, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
         putText(frame, "RECORDING", Point(40, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 1);
@@ -298,25 +322,42 @@ int main(int argc, const char * argv[]){
     //++blinks_number;
     
     
-    char c = (char)waitKey(10);//TODO: Check if that is causing a problem
+    char c = (char)waitKey(33);//TODO: Check if that is causing a problem with how long the video is
     if( c == 27 ) //Escape button pressed
     {
       if (recording)
       {
-        fclose (srtFile);
+        //fclose (srtFile);
         //fclose (trainingFile);
-        fclose(audioFile);
-        recording = false;
+        //fclose(audioFile);
+        //recording = false;
+        printf("Please end the recording session first.\n");
+      }
+      else
+      {
+        terminating = true;
+        streaming = false;
+        break;
       }
      
-      terminating = true;
-      streaming = false;
-      break;
+      
     }
     else if (c == 'r')
     {
       if (recording)
       {
+        //TODO: make a loop that will block untill our audio file reaches the time at which we decided to end the recording
+        //take time, and get only the seconds part
+
+        unsigned long endTime;
+        struct timeval now;
+        gettimeofday(&now, NULL);
+        endTime = (unsigned long long)(now.tv_sec) * 1000 + (unsigned long long)(now.tv_usec) / 1000;
+        endTime -= startTime;
+        endTime /= 1000;
+        printf("Please wait while the stream catches up with the video...\n");
+        int num_channels_sampling_frequency = sensorVectorSize*samplingFrequency;
+        while (audioValuesWritten/(num_channels_sampling_frequency) <= endTime){}
         stoppedRecording = true;
         printf("Stopped recording!\n");
       }
@@ -330,7 +371,7 @@ int main(int argc, const char * argv[]){
     else if (c == 'n')
     {
       //TODO: if writingSRT == true
-      if (recording)
+      if (recording && !writingSRT)
       {
         if(getline(infile, gestureString))
         {
@@ -450,6 +491,7 @@ void SensorStream()
               //srtTime += FromMillisecondsToSRTFormat(timeNow - startTime);
 
             WriteLittleEndian(FloatToBits(val), 4);
+            audioValuesWritten++;
             //fprintf (trainingFile, "%5.2f", val);
             //srtData += buffer;//TODO: consider taking only 2 decimal places
             //sprintf(strData, "%5.2f", val);
@@ -474,6 +516,7 @@ void SensorStream()
             gettimeofday(&tv, NULL);
             startTime = (unsigned long long)(tv.tv_sec) * 1000 + (unsigned long long)(tv.tv_usec) / 1000;
             startWriting = true;
+            audioValuesWritten = 0;
           }
         }
         else
