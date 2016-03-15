@@ -471,7 +471,8 @@ void SensorStream()
   {
     for(int i = 0; i < sensorVectorSize; i++)
     {
-      scanf("%s", buffer);  
+      scanf("%s", buffer); 
+      //cout <<buffer<<endl; 
       try
       {
         val = stof(buffer);
@@ -517,6 +518,7 @@ void SensorStream()
             startTime = (unsigned long long)(tv.tv_sec) * 1000 + (unsigned long long)(tv.tv_usec) / 1000;
             startWriting = true;
             audioValuesWritten = 0;
+            //cout<<"started..."<<endl;
           }
         }
         else
