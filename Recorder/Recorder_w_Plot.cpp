@@ -295,18 +295,17 @@ int main(int argc, const char * argv[]){
         frame.copyTo ( Mat ( display, Rect ( 0, 0, frame.cols, frame.rows ) ) );
       }
 
-      if(streamComing)
-      {
-        circle(frame, Point(426, 16), 8, Scalar(255, 0, 0), -1, 8, 0);
-        putText(frame, "SENSOR STREAMING", Point(440, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 0, 0), 1);
-      }
       imshow( "Recorder", display );
 
 
     }
     else
     {
-      
+      if(streamComing)
+      {
+        circle(frame, Point(426, 16), 8, Scalar(255, 0, 0), -1, 8, 0);
+        putText(frame, "SENSOR STREAMING", Point(440, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 0, 0), 1);
+      }
       if (startWriting)
       {
         timeDiff = timeNow - startTime;
@@ -320,11 +319,6 @@ int main(int argc, const char * argv[]){
         //Recording Indicator
         circle(frame, Point(26, 16), 8, Scalar(0, 0, 255), -1, 8, 0);
         putText(frame, "RECORDING", Point(40, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 1);
-      }
-      if(streamComing)
-      {
-        circle(frame, Point(426, 16), 8, Scalar(255, 0, 0), -1, 8, 0);
-        putText(frame, "SENSOR STREAMING", Point(440, 20), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255, 0, 0), 1);
       }
       imshow( "Recorder", frame );
     }
